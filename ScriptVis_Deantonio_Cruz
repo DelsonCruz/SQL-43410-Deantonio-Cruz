@@ -28,26 +28,36 @@ SELECT 'columna1', 'columna2', 'columna3'
 FROM KARDEX_IMPORTADO;
 
 
--- SELECT - Todos los registros de la tabla --VISTA1
-SELECT *
-FROM KARDEX_IMPORTADO;
+
+-- CREATE OR REPLACE VIEW --VISTA1 
+
+CREATE VIEW KARDEX_DB AS
+SELECT 'columna1'
+FROM KARDEX_IMPORTADO
+WHERE CAMA = 'columna1';
+
 
 -- SELECT - Columnas específicas de la tabla --VISTA2
-SELECT columna1, columna2, columna3
-FROM KARDEX_IMPORTADO;
+CREATE OR REPLACE VIEW vista_productos_vendidos AS
+SELECT producto_id, nombre, cantidad_vendida
+FROM ventas
+WHERE fecha > '2023-01-01';
 
 -- SELECT - Condiciones --VISTA3
-SELECT columna1, columna2, columna3
-FROM KARDEX_IMPORTADO
-WHERE DATE;
+CREATE OR REPLACE VIEW vista_clientes_activos AS
+SELECT cliente_id, nombre, direccion
+FROM clientes
+WHERE estado = 'activo';
 
 -- SELECT - Ordenar los resultados --VISTA4
-SELECT columna1, columna2, columna3
-FROM KARDEX_IMPORTADO
-ORDER BY columna1 ASC; -- Orden ascendente
+CREATE OR REPLACE VIEW vista_pedidos_pendientes AS
+SELECT pedido_id, fecha_pedido, estado
+FROM pedidos
+WHERE estado = 'pendiente';
 
 -- SELECT - Limitar la cantidad de registros mostrados --VISTA5
-SELECT columna1, columna2, columna3
-FROM KARDEX_IMPORTADO
-LIMIT 10; -- Mostrar solo los primeros 10 registros
+CREATE OR REPLACE VIEW vista_ingresos_diarios AS
+SELECT fecha, SUM(total) AS ingresos
+FROM ventas
+GROUP BY fecha;
 
