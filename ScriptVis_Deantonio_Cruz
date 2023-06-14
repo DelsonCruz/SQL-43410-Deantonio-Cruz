@@ -1,5 +1,4 @@
 
-
 DROP DATABASE IF EXISTS `KARDEX_DB`;
 CREATE DATABASE `KARDEX_DB`;
 USE `KARDEX_DB`;
@@ -28,36 +27,31 @@ SELECT 'columna1', 'columna2', 'columna3'
 FROM KARDEX_IMPORTADO;
 
 
-
 -- CREATE OR REPLACE VIEW --VISTA1 
 
-CREATE VIEW KARDEX_DB AS
-SELECT 'columna1'
+CREATE VIEW TODOS_LOS_ELEMENTOS AS
+SELECT *
+FROM KARDEX_IMPORTADO;
+
+-- CREATE OR REPLACE VIEW --VISTA2
+
+CREATE VIEW PRECIO_ELEMENTO AS
+SELECT *
 FROM KARDEX_IMPORTADO
-WHERE CAMA = 'columna1';
+WHERE PRECIO = 3000;
 
 
--- SELECT - Columnas específicas de la tabla --VISTA2
-CREATE OR REPLACE VIEW vista_productos_vendidos AS
-SELECT producto_id, nombre, cantidad_vendida
-FROM ventas
-WHERE fecha > '2023-01-01';
+-- CREATE OR REPLACE VIEW --VISTA3
 
--- SELECT - Condiciones --VISTA3
-CREATE OR REPLACE VIEW vista_clientes_activos AS
-SELECT cliente_id, nombre, direccion
-FROM clientes
-WHERE estado = 'activo';
+CREATE VIEW PRECIO_MAYOR_QUE AS
+SELECT *
+FROM KARDEX_IMPORTADO
+WHERE PRECIO >= 5000;
 
--- SELECT - Ordenar los resultados --VISTA4
-CREATE OR REPLACE VIEW vista_pedidos_pendientes AS
-SELECT pedido_id, fecha_pedido, estado
-FROM pedidos
-WHERE estado = 'pendiente';
+-- CREATE OR REPLACE VIEW --VISTA4
 
--- SELECT - Limitar la cantidad de registros mostrados --VISTA5
-CREATE OR REPLACE VIEW vista_ingresos_diarios AS
-SELECT fecha, SUM(total) AS ingresos
-FROM ventas
-GROUP BY fecha;
+CREATE VIEW PRODUCTO_TIPO AS
+SELECT ARTICULO
+FROM KARDEX_IMPORTADO
+WHERE ARTICULO = 'CARRO';
 
