@@ -1,0 +1,42 @@
+DROP DATABASE IF EXISTS `KARDEX_DB`;
+CREATE DATABASE `KARDEX_DB`;
+USE `KARDEX_DB`;
+
+CREATE TABLE KARDEX_IMPORTADO(
+ARTICULO TEXT,
+FECHA_ADQUISICION TEXT,
+PRECIO TEXT
+);
+
+-- CARGAR tabla importada --
+
+LOAD DATA INFILE 'C:/Program Files/MySQL/KARDEX/KARDEX_UNO.csv'
+INTO TABLE KARDEX_IMPORTADO
+FIELDS TERMINATED BY ',' -- Indica el delimitador de campos del CSV (en este caso, una coma)
+ENCLOSED BY '"' -- Indica el carácter de comillas utilizado en el CSV (opcional)
+LINES TERMINATED BY '\n' -- Indica el delimitador de líneas del CSV (en este caso, un salto de línea)
+IGNORE 1 ROWS; -- Ignora la primera línea del archivo (opcional si la primera línea contiene nombres de columnas)	
+
+
+-- traer tabla importada --
+CREATE TABLE KARDEX_DB(
+`columna1` TEXT, `columna2` DATE, `columna3` INT
+);
+SELECT 'columna1', 'columna2', 'columna3'
+FROM KARDEX_IMPORTADO;
+
+
+-- CREATE PROCEDURE -- PROCEDURE 
+
+DELIMITER //
+
+CREATE PROCEDURE obtenerCantidadProductos()
+BEGIN
+    SELECT COUNT(*) AS total_Productos FROM kardex_db;
+END //
+
+DELIMITER ;
+
+CALL `kardex_db`.`obtenerCantidadProductos`();
+
+
