@@ -1,3 +1,5 @@
+
+
 DROP DATABASE IF EXISTS `KARDEX_DB`;
 CREATE DATABASE `KARDEX_DB`;
 USE `KARDEX_DB`;
@@ -18,25 +20,42 @@ LINES TERMINATED BY '\n' -- Indica el delimitador de líneas del CSV (en este ca
 IGNORE 1 ROWS; -- Ignora la primera línea del archivo (opcional si la primera línea contiene nombres de columnas)	
 
 
--- traer tabla importada --
-CREATE TABLE KARDEX_DB(
-`columna1` TEXT, `columna2` DATE, `columna3` INT
-);
-SELECT 'columna1', 'columna2', 'columna3'
-FROM KARDEX_IMPORTADO;
 
-
--- CREATE PROCEDURE -- PROCEDURE 
+-- CREATE PROCEDURE CONTAR PRODUCTOS-- 
 
 DELIMITER //
 
-CREATE PROCEDURE obtenerCantidadProductos()
+CREATE PROCEDURE CantidadProductos()
 BEGIN
-    SELECT COUNT(*) AS total_Productos FROM kardex_db;
+    SELECT COUNT(*) AS ARTICULO FROM KARDEX_IMPORTADO;
 END //
 
 DELIMITER ;
 
-CALL `kardex_db`.`obtenerCantidadProductos`();
+CALL `kardex_db`.`CantidadProductos`();
 
+
+-- CREATE PROCEDURE ORDENAR PRODUCTOS-- 
+
+DELIMITER //
+
+CREATE PROCEDURE OrdenarAproductos()
+BEGIN
+SELECT ARTICULO, PRECIO, FECHA_ADQUISICION FROM KARDEX_IMPORTADO ORDER BY ARTICULO ASC;
+END //
+
+DELIMITER ;
+
+CALL `kardex_db`.`OrdenarAproductos`();
+
+DELIMITER //
+
+CREATE PROCEDURE OrdenarDproductos()
+BEGIN
+SELECT ARTICULO FROM KARDEX_IMPORTADO ORDER BY ARTICULO DESC;
+END //
+
+DELIMITER ;
+
+CALL `kardex_db`.`OrdenarDproductos`();
 
