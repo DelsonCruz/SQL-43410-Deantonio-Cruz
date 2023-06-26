@@ -1,1 +1,50 @@
 
+
+-- CARGAR BASE DE DATOS Y CORROBORAR QUE NO EXISTE --
+
+DROP DATABASE IF EXISTS `KARDEX_DB`;
+CREATE DATABASE `KARDEX_DB`;
+USE `KARDEX_DB`;
+
+-- CREAR tabla importada --
+
+CREATE TABLE KARDEX_IMPORTADO(
+ARTICULO TEXT,
+FECHA_ADQUISICION TEXT,
+PRECIO TEXT
+);
+
+-- CARGAR tabla importada --
+
+LOAD DATA INFILE 'C:/Program Files/MySQL/KARDEX/KARDEX_UNO.csv'
+INTO TABLE KARDEX_IMPORTADO
+FIELDS TERMINATED BY ',' -- Indica el delimitador de campos del CSV (en este caso, una coma)
+ENCLOSED BY '"' -- Indica el carácter de comillas utilizado en el CSV (opcional)
+LINES TERMINATED BY '\n' -- Indica el delimitador de líneas del CSV (en este caso, un salto de línea)
+IGNORE 1 ROWS; -- Ignora la primera línea del archivo (opcional si la primera línea contiene nombres de columnas)	
+
+
+
+
+
+CREATE TABLE KARDEX_IMPORTADO2(
+ARTICULO TEXT,
+FECHA_ADQUISICION TEXT,
+PRECIO TEXT,
+USUARIO VARCHAR(30),
+FECHA_REGISTRO DATETIME
+);
+
+
+
+
+SELECT * FROM kardex_db.kardex_importado2;
+
+
+CREATE TRIGGER MODIFICACION_ULTIMA
+AFTER INSERT ON KARDEX_IMPORTADO
+FOR EACH ROW INSERT INTO KARDEX_IMPORTADO2
+(ARTICULO, FECHA_ADQUISICION, PRECIO, USUARIO, FECHA_REGISTRO)
+VALUES (NEW.ARTICULO, NEW.FECHA_ADQUISICION, NEW.PRECIO, CURRENT_USER, NOW())
+-- SET NEW.PRECIO = NOW();
+
